@@ -60,7 +60,11 @@ MQTT is huge help in connecting different parts of your smart home and setting u
 ## Installation
 
 On a modern Linux system just a few steps are needed to get the daemon working.
+On Debian 12 (Bookworm) based OS'es like Raspbian/Openhabian Python needs to be installed in a "Virtual Enviroment".
+See the info on the  [raspberrypi site](http://rptl.io/venv)
+
 The following example shows the installation under Debian/Raspbian below the `/opt` directory:
+
 
 ```shell
 sudo apt install git python3 python3-pip bluetooth bluez
@@ -74,6 +78,12 @@ sudo apt install libglib2.0-dev
 git clone https://github.com/ThomDietrich/miflora-mqtt-daemon.git /opt/miflora-mqtt-daemon
 
 cd /opt/miflora-mqtt-daemon
+```
+Now install Python in a virtual enviroment (needed from debian 12, encouraged on earlier versions).
+This will avoid dependency issues with other packages.
+```shell
+sudo python -m venv --system-site-packages env
+sudo source env/bin/activate
 sudo pip3 install -r requirements.txt
 ```
 
@@ -118,9 +128,10 @@ Some configuration options can be set via environment variables, see `config.ini
 ## Execution
 
 A first test run is as easy as:
+(The [/opt/miflora-mqtt-daemon/env/bin/python3] part makes Python run in your new virtual enviroment)
 
 ```shell
-python3 /opt/miflora-mqtt-daemon/miflora-mqtt-daemon.py
+/opt/miflora-mqtt-daemon/env/bin/python3 /opt/miflora-mqtt-daemon/miflora-mqtt-daemon.py
 ```
 
 With a correct configuration the result should look similar to the the screencap above.
@@ -129,7 +140,7 @@ Pay attention to communication errors due to distance related weak Bluetooth con
 Using the command line argument `--config`, a directory where to read the config.ini file from can be specified, e.g.
 
 ```shell
-python3 /opt/miflora-mqtt-daemon/miflora-mqtt-daemon.py --config /opt/miflora-config
+/opt/miflora-mqtt-daemon/env/bin/python3 /opt/miflora-mqtt-daemon/miflora-mqtt-daemon.py --config /opt/miflora-config
 ```
 
 ### Continuous Daemon/Service
